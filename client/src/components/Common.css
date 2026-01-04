@@ -1,0 +1,170 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    font-family: "Source Sans 3", sans-serif;
+}
+
+.dora_title{
+    font-size: 4vh;
+}
+
+.dora_description{
+    font-size: 1.6vh;
+    font-weight: 300;
+    color: gray;
+    margin-bottom: 4vh;
+}
+
+.dora_input_label{
+    font-size: 1.3vh;
+}
+
+.dora_text{
+    font-size: 1.5vh;
+}
+
+
+.dora_prime_input{
+    margin: 10px 0px;
+}
+
+.dora_prime_input input{
+    width: 90%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1.6vh;
+    height: 40px;
+}
+
+.dora_input{
+    text-align: center;
+}
+
+
+
+
+.dora_prime_input input::placeholder,
+textarea::placeholder {
+  color: #adb4c0;
+  font-weight: 200;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.dora_primt_btn button{
+    width: 100%;
+    height: 40px;
+    border: none;
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1.5vh;
+    margin: 20px 0px;
+    background-color: rgb(15, 15, 15);
+    color: white;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+
+.dora_primt_btn button:active{
+    transform: scale(0.98);
+    transition: 100ms;
+}
+
+.dora_logo {
+    padding: 20px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    width: fit-content;
+    font-size: 2.5vh;
+    font-weight: 399;
+}
+
+.dora_logo > div {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #333;
+    white-space: nowrap;
+    animation: typing 5s ease-in-out infinite, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 8ch;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #333;
+    }
+}
+
+.dora_title,
+.dora_description,
+.dora_prime_input,
+.dora_login_options,
+.dora_primt_btn,
+.dora_text {
+    opacity: 0;
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.dora_title {
+    animation-delay: 0.1s;
+}
+
+.dora_description {
+    animation-delay: 0.2s;
+}
+
+.dora_prime_input:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.dora_prime_input:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.dora_login_options {
+    animation-delay: 0.5s;
+}
+
+.dora_primt_btn {
+    animation-delay: 0.6s;
+}
+
+.dora_text {
+    animation-delay: 0.7s;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.link{
+    font-size: 1.8vh;
+    color: black;
+    text-decoration: underline;
+}
+
+.dora_heading1{
+    font-size: 2.5vh;
+    font-weight: 300;
+}

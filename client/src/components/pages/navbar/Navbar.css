@@ -1,0 +1,129 @@
+.body{
+    /* background-color: rgb(241, 241, 241); */
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    font-family: "Source Sans 3", sans-serif;
+}
+
+.dora_navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: auto;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* background: rgba(255, 255, 255, 0.7); */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0px 30px;
+    border-radius: 50px;
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    z-index: 1000;
+}
+
+.dora_logo_{
+    font-size: 1.6vh;
+    font-weight: 400;
+    border: 0.5px solid black;
+    padding: 15px 15px;
+    border-radius: 50px;
+}
+
+.dora_menu ul{
+    padding: 0px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 6px 0px;
+    border-radius: 50px;
+    background-color: white;
+    position: relative;
+}
+
+.dora_menu ul li{
+    margin: 0px 10px;
+    font-weight: 300;
+    font-size: 1.6vh;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    padding: 13px 15px;
+    transition: color 0.3s ease;
+}
+
+.dora_menu_container{
+    display: flex;
+    align-items: center;
+}
+
+.settings, .profiles{
+    background-color: white;
+    padding: 15px 14px;
+    border-radius: 50px;
+    margin: 0px 10px;
+    font-size: 1.6vh;
+    font-weight: 300;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.settings:hover, .profiles:hover{
+    transform: scale(1.05);
+}
+
+.active_settings{
+    background-color: black !important;
+    color: white;
+}
+
+.active{
+    color: white;
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.active::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    border-radius: 50px;
+    z-index: -1;
+}
+
+.active.right::before{
+    animation: slideRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.active.left::before{
+    animation: slideLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

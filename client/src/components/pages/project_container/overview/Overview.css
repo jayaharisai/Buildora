@@ -1,0 +1,136 @@
+.Project_promt_search{
+    padding: 50px 0px;
+    height: fit-content;
+    opacity: 0;
+    animation: fadeInUp 0.4s ease-out forwards;
+    animation-delay: 0.1s;
+}
+
+.dora_search_title{
+    font-size: 4vh;
+    font-weight: 200;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.typing_text{
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #333;
+    white-space: nowrap;
+    animation: typing 10s ease-in-out infinite, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 26ch;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #333;
+    }
+}
+
+.search_container2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.template_image{
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.template_image img{
+    width: 30vh;
+    height: 30vh;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.template_card:hover .template_image img{
+    transform: scale(1.1);
+}
+
+.deatils{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.progress{
+    background-color: rgb(255, 214, 124);
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 1.4vh;
+    font-weight: 400;
+}
+
+.completed{
+    background-color: rgb(31, 255, 143);
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 1.4vh;
+    font-weight: 400;
+}
+
+.template_card{
+    width: 25vh;
+    opacity: 0;
+    animation: fadeInUp 0.4s ease-out forwards;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.template_card:hover{
+    transform: translateY(-10px);
+}
+
+.template_card:nth-child(1) { animation-delay: 0.1s; }
+.template_card:nth-child(2) { animation-delay: 0.15s; }
+.template_card:nth-child(3) { animation-delay: 0.2s; }
+.template_card:nth-child(4) { animation-delay: 0.25s; }
+.template_card:nth-child(5) { animation-delay: 0.3s; }
+.template_card:nth-child(6) { animation-delay: 0.35s; }
+.template_card:nth-child(7) { animation-delay: 0.4s; }
+.template_card:nth-child(8) { animation-delay: 0.45s; }
+.template_card:nth-child(9) { animation-delay: 0.5s; }
+.template_card:nth-child(10) { animation-delay: 0.55s; }
+
+.all_templates{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 40px;
+    gap: 20px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
