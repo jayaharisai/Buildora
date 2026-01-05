@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../navbar/Navbar'
 import "./Projects.css"
 
+
 function Projects() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
   
   const projectsData = [
     {
@@ -58,6 +60,13 @@ function Projects() {
     }
   ];
 
+  useEffect(() => {
+    // Initial loading simulation
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   const filteredProjects = projectsData.filter(project =>
     project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     project.id.toLowerCase().includes(searchQuery.toLowerCase())
@@ -66,6 +75,88 @@ function Projects() {
   const handleProjectClick = (projectId) => {
     navigate('/overview', { state: { projectId } });
   };
+
+  // Skeleton loader components
+  const SkeletonStats = () => (
+    <div className='dora_projects_analysis'>
+      <div>
+        <div className='skeleton skeleton-stat-label'></div>
+        <div className='skeleton skeleton-stat-value'></div>
+      </div>
+      <div>
+        <div className='skeleton skeleton-stat-label'></div>
+        <div className='skeleton skeleton-stat-value'></div>
+      </div>
+      <div>
+        <div className='skeleton skeleton-stat-label'></div>
+        <div className='skeleton skeleton-stat-value'></div>
+      </div>
+    </div>
+  );
+
+  const SkeletonTableRow = () => (
+    <ul className='table_container_col skeleton-table-row'>
+      <li className='col0'><div className='skeleton skeleton-checkbox'></div></li>
+      <li className='col1'><div className='skeleton skeleton-text-long'></div></li>
+      <li className='col2'><div className='skeleton skeleton-text-medium'></div></li>
+      <li className='col3'><div className='skeleton skeleton-text-short'></div></li>
+      <li className='col4'><div className='skeleton skeleton-text-short'></div></li>
+      <li className='col5'><div className='skeleton skeleton-text-medium'></div></li>
+      <li className='col6'><div className='skeleton skeleton-text-medium'></div></li>
+      <li className='col7'><div className='skeleton skeleton-icon'></div></li>
+    </ul>
+  );
+
+  if (loading) {
+    return (
+      <div className='body'>
+        <div>
+          <div>
+            <div><Navbar/></div>
+          </div>
+          <div className='main_space'></div>
+          <div className='dora_dashboard_container'>
+            <div>
+              <div className='skeleton skeleton-page-title'></div>
+              <div className='skeleton skeleton-description'></div>
+            </div>
+            
+            <SkeletonStats />
+            
+            <div className='main_space2'></div>
+
+            <div>
+              <div>
+                <div className='skeleton skeleton-heading'></div>
+              </div>
+              <div className='project_options'>
+                <div className='skeleton skeleton-search'></div>
+                <div className='skeleton skeleton-button'></div>
+              </div>
+              <div className='table'>
+                <ul className='table_container'>
+                  <li className='col0'><div className='skeleton skeleton-checkbox'></div></li>
+                  <li className='col1 c'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col2'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col3'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col4'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col5'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col6'><div className='skeleton skeleton-text-short'></div></li>
+                  <li className='col7'></li>
+                </ul>
+                <SkeletonTableRow />
+                <SkeletonTableRow />
+                <SkeletonTableRow />
+                <SkeletonTableRow />
+                <SkeletonTableRow />
+                <SkeletonTableRow />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='body'>
@@ -101,7 +192,6 @@ function Projects() {
                     </div>
                     <div className='project_options'>
                         <div className='input_search'>
-                          {/* <i className="bi bi-search se"></i> */}
                           <input 
                             placeholder='Search Project' 
                             value={searchQuery}

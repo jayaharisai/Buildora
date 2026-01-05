@@ -1,189 +1,273 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Navbar from '../navbar/Navbar'
+import React, { useState, useEffect } from 'react'
 import "./Dashboard.css"
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 function Dashboard() {
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true)
+  const [tokenData, setTokenData] = useState([])
+  const [apiData, setApiData] = useState([])
 
-  const recentActivity = [
-    { id: 1, type: 'Template', name: 'Commercial Email', status: 'Completed', time: '2 hours ago' },
-    { id: 2, type: 'Project', name: 'mlangles mlops', status: 'Updated', time: '5 hours ago' },
-    { id: 3, type: 'Template', name: 'Password Reset', status: 'In Progress', time: '1 day ago' },
-    { id: 4, type: 'Project', name: 'reddress chat', status: 'Deployed', time: '2 days ago' }
-  ];
+  const generateData = () => {
+    return Array.from({ length: 30 }, () => Math.floor(Math.random() * 100) + 20)
+  }
 
-  const quickStats = [
-    { label: 'Active Projects', value: '6', change: '+12%', color: '#000000' },
-    { label: 'Templates Generated', value: '234', change: '+18%', color: '#f6d467' },
-    { label: 'API Calls', value: '45.2K', change: '+24%', color: '#4F46E5' },
-    { label: 'Success Rate', value: '98.5%', change: '+2%', color: '#10B981' }
-  ];
+  // Recent items data
+  const recentItems = [
+    { type: 'project', name: 'Customer Analytics Dashboard', source: 'main-app', date: '2 hours ago', color: '#000000' },
+    { type: 'template', name: 'User Onboarding Flow', source: 'E-commerce Platform', date: '5 hours ago', color: '#F6D467' },
+    { type: 'project', name: 'Payment Gateway Integration', source: 'fintech-suite', date: '1 day ago', color: '#6B7280' },
+    { type: 'template', name: 'Email Verification', source: 'Auth Service', date: '1 day ago', color: '#F6D467' },
+    { type: 'project', name: 'Real-time Chat Module', source: 'social-app', date: '2 days ago', color: '#000000' },
+    { type: 'template', name: 'Data Export Pipeline', source: 'Analytics Engine', date: '2 days ago', color: '#F6D467' },
+    { type: 'project', name: 'API Rate Limiter', source: 'backend-core', date: '3 days ago', color: '#000000' },
+  ]
+
+  // Alerts data
+  const alerts = [
+    { type: 'warning', message: 'API usage at 85% of monthly limit', time: '10 mins ago' },
+    { type: 'success', message: 'Payment Gateway project deployed successfully', time: '2 hours ago' },
+    { type: 'error', message: 'Template validation failed: User Signup v2', time: '4 hours ago' },
+    { type: 'info', message: 'New template available: Multi-step Form', time: '6 hours ago' },
+    { type: 'warning', message: 'Token usage spike detected in Analytics Dashboard', time: '1 day ago' },
+    { type: 'success', message: '3 new team members added to workspace', time: '1 day ago' },
+  ]
+
+  useEffect(() => {
+    // Initial loading simulation
+    setTimeout(() => {
+      setTokenData(generateData())
+      setApiData(generateData())
+      setLoading(false)
+    }, 2000)
+
+    // Update data every 10 seconds
+    const interval = setInterval(() => {
+      setTokenData(generateData())
+      setApiData(generateData())
+    }, 10000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const labels = Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`)
+
+  const tokenChartData = {
+    labels,
+    datasets: [
+      {
+        label: 'Token Usage (K)',
+        data: tokenData,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        borderRadius: 8,
+        borderSkipped: false,
+      }
+    ]
+  }
+
+  const apiChartData = {
+    labels,
+    datasets: [
+      {
+        label: 'API Calls',
+        data: apiData,
+        backgroundColor: 'rgba(246, 212, 103, 0.9)',
+        borderRadius: 8,
+        borderSkipped: false,
+      }
+    ]
+  }
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 10,
+          font: {
+            size: 10
+          }
+        }
+      },
+      y: {
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        },
+        beginAtZero: true
+      }
+    },
+    animation: {
+      duration: 1500,
+      easing: 'easeInOutQuart'
+    }
+  }
+
+  // Skeleton loader component
+  const SkeletonLoader = () => (
+    <div className="skeleton-wrapper">
+      <div className="skeleton skeleton-card"></div>
+      <div className="skeleton skeleton-card"></div>
+      <div className="skeleton skeleton-card"></div>
+      <div className="skeleton skeleton-card"></div>
+    </div>
+  )
+
+  const SkeletonItem = () => (
+    <div className="skeleton-item">
+      <div className="skeleton skeleton-badge"></div>
+      <div className="skeleton skeleton-text"></div>
+      <div className="skeleton skeleton-text-small"></div>
+    </div>
+  )
+
+  if (loading) {
+    return (
+      <div className='dora_dashboard_container'>
+        <div className='main_space'></div>
+        <div>
+          <div className='skeleton skeleton-title'></div>
+        </div>
+
+        <div className='dashboard_card_container'>
+          <SkeletonLoader />
+        </div>
+
+        <div className='all_recents'>
+          <div className='recent_projects_templates'>
+            <div className="skeleton skeleton-section-title"></div>
+            <div className="skeleton-items-list">
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+            </div>
+          </div>
+          <div className='analysis'>
+            <div className='token_analysis'>
+              <div className="skeleton skeleton-chart"></div>
+            </div>
+            <div className='api_calls_analysis'>
+              <div className="skeleton skeleton-chart"></div>
+            </div>
+          </div>
+          <div className='alerts'>
+            <div className="skeleton skeleton-section-title"></div>
+            <div className="skeleton-items-list">
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div>
-      <div><Navbar/></div>
-      <div className='dora_dashboard_container'>
-          <div className='main_space'></div>
-          
-          <div className='dashboard_header'>
-              <div>
-                  <div className='dora_title'>Welcome back, Jay</div>
-                  <div className='dora_description'>Here's what's happening with your projects today</div>
-              </div>
-              <div className='dora_secondery_btn'>
-                  <button onClick={() => navigate('/projects')}>View All Projects</button>
-              </div>
-          </div>
+    <div className='dora_dashboard_container'>
+        <div className='main_space'></div>
+        <div>
+            <div className='dora_title'>Welcome in, Jay</div>
+        </div>
 
-          <div className='stats_grid'>
-              {quickStats.map((stat, index) => (
-                  <div className='stat_card' key={index} style={{animationDelay: `${index * 0.1}s`}}>
-                      <div className='stat_header'>
-                          <div className='stat_label'>{stat.label}</div>
-                          <div className='stat_change positive'>{stat.change}</div>
-                      </div>
-                      <div className='stat_value' style={{color: stat.color}}>{stat.value}</div>
-                      <div className='stat_bar'>
-                          <div className='stat_bar_fill' style={{
-                              background: `linear-gradient(90deg, ${stat.color} 0%, ${stat.color}80 100%)`,
-                              width: '75%'
-                          }}></div>
-                      </div>
+        <div className='dashboard_card_container'>
+          <div className='dashboard_cards'>
+            <div>
+              <div className='mar_left_24 dashboard_label'>Total Projects</div>
+              <div className='dashboard_card'><span className='mar_left_24'>24</span></div>
+            </div>
+            <div>
+              <div className='mar_left_24 dashboard_label'>Created Templates</div>
+              <div className='dashboard_card yello'><span className='mar_left_24'>62</span></div>
+            </div>
+            <div>
+              <div className='mar_left_24 dashboard_label'>API Calls</div>
+              <div className='dashboard_card trans'><span className='mar_left_24'>569</span></div>
+            </div>
+            <div>
+              <div className='mar_left_24 dashboard_label'>Tokens used</div>
+              <div className='dashboard_card gray'><span className='mar_left_24'>987K</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div className='all_recents'>
+          <div className='recent_projects_templates'>
+            <div className='section_title'>Recent</div>
+            <div className='recent_items_list'>
+              {recentItems.map((item, index) => (
+                <div key={index} className='recent_item'>
+                  <div className='item_header'>
+                    <span className='item_label' style={{ backgroundColor: item.color }}>
+                      {item.type === 'project' ? 'Project' : 'Template'}
+                    </span>
+                    <span className='item_date'>{item.date}</span>
                   </div>
+                  <div className='item_name'>{item.name}</div>
+                  <div className='item_source'>Source: {item.source}</div>
+                </div>
               ))}
+            </div>
           </div>
-
-          <div className='dashboard_content'>
-              <div className='chart_section'>
-                  <div className='section_card'>
-                      <div className='section_header'>
-                          <div className='section_title'>Usage Analytics</div>
-                          <div className='section_subtitle'>Last 7 days</div>
-                      </div>
-                      <div className='chart_container'>
-                          <div className='gradient_chart'>
-                              <div className='chart_bar' style={{height: '60%'}}>
-                                  <div className='bar_fill gradient_1'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '75%'}}>
-                                  <div className='bar_fill gradient_2'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '55%'}}>
-                                  <div className='bar_fill gradient_3'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '85%'}}>
-                                  <div className='bar_fill gradient_4'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '70%'}}>
-                                  <div className='bar_fill gradient_5'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '90%'}}>
-                                  <div className='bar_fill gradient_6'></div>
-                              </div>
-                              <div className='chart_bar' style={{height: '95%'}}>
-                                  <div className='bar_fill gradient_7'></div>
-                              </div>
-                          </div>
-                          <div className='chart_labels'>
-                              <span>Mon</span>
-                              <span>Tue</span>
-                              <span>Wed</span>
-                              <span>Thu</span>
-                              <span>Fri</span>
-                              <span>Sat</span>
-                              <span>Sun</span>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div className='section_card'>
-                      <div className='section_header'>
-                          <div className='section_title'>Model Performance</div>
-                          <div className='section_subtitle'>Real-time metrics</div>
-                      </div>
-                      <div className='performance_metrics'>
-                          <div className='metric_item'>
-                              <div className='metric_label'>Accuracy</div>
-                              <div className='metric_progress'>
-                                  <div className='progress_bar'>
-                                      <div className='progress_fill' style={{width: '94%', background: 'linear-gradient(90deg, #10B981 0%, #10B98180 100%)'}}></div>
-                                  </div>
-                                  <span className='metric_value'>94%</span>
-                              </div>
-                          </div>
-                          <div className='metric_item'>
-                              <div className='metric_label'>Latency</div>
-                              <div className='metric_progress'>
-                                  <div className='progress_bar'>
-                                      <div className='progress_fill' style={{width: '78%', background: 'linear-gradient(90deg, #f6d467 0%, #f6d46780 100%)'}}></div>
-                                  </div>
-                                  <span className='metric_value'>78ms</span>
-                              </div>
-                          </div>
-                          <div className='metric_item'>
-                              <div className='metric_label'>Throughput</div>
-                              <div className='metric_progress'>
-                                  <div className='progress_bar'>
-                                      <div className='progress_fill' style={{width: '88%', background: 'linear-gradient(90deg, #4F46E5 0%, #4F46E580 100%)'}}></div>
-                                  </div>
-                                  <span className='metric_value'>88%</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+          
+          <div className='analysis'>
+            <div className='token_analysis'>
+              <div className='chart_title'>Token Analysis (30 Days)</div>
+              <div className='chart_wrapper'>
+                <Bar data={tokenChartData} options={chartOptions} />
               </div>
-
-              <div className='activity_section'>
-                  <div className='section_card'>
-                      <div className='section_header'>
-                          <div className='section_title'>Recent Activity</div>
-                          <div className='section_link' onClick={() => navigate('/projects')}>View all</div>
-                      </div>
-                      <div className='activity_list'>
-                          {recentActivity.map((activity, index) => (
-                              <div className='activity_item' key={activity.id} style={{animationDelay: `${index * 0.1}s`}}>
-                                  <div className='activity_icon'>
-                                      {activity.type === 'Template' ? '📧' : '📦'}
-                                  </div>
-                                  <div className='activity_details'>
-                                      <div className='activity_name'>{activity.name}</div>
-                                      <div className='activity_time'>{activity.time}</div>
-                                  </div>
-                                  <div className={`activity_status ${activity.status.toLowerCase().replace(' ', '_')}`}>
-                                      {activity.status}
-                                  </div>
-                              </div>
-                          ))}
-                      </div>
-                  </div>
-
-                  <div className='section_card quick_actions'>
-                      <div className='section_header'>
-                          <div className='section_title'>Quick Actions</div>
-                      </div>
-                      <div className='actions_grid'>
-                          <div className='action_btn' onClick={() => navigate('/overview')}>
-                              <i className="bi bi-plus-circle"></i>
-                              <span>New Template</span>
-                          </div>
-                          <div className='action_btn' onClick={() => navigate('/projects')}>
-                              <i className="bi bi-folder-plus"></i>
-                              <span>New Project</span>
-                          </div>
-                          <div className='action_btn'>
-                              <i className="bi bi-bar-chart"></i>
-                              <span>View Analytics</span>
-                          </div>
-                          <div className='action_btn'>
-                              <i className="bi bi-gear"></i>
-                              <span>Settings</span>
-                          </div>
-                      </div>
-                  </div>
+            </div>
+            <div className='api_calls_analysis'>
+              <div className='chart_title'>API Calls (30 Days)</div>
+              <div className='chart_wrapper'>
+                <Bar data={apiChartData} options={chartOptions} />
               </div>
+            </div>
           </div>
-      </div>
+          
+          <div className='alerts'>
+            <div className='section_title'>Alerts</div>
+            <div className='alerts_list'>
+              {alerts.map((alert, index) => (
+                <div key={index} className={`alert_item alert_${alert.type}`}>
+                  <div className='alert_content'>
+                    <div className='alert_message'>{alert.message}</div>
+                    <div className='alert_time'>{alert.time}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
     </div>
   )
 }

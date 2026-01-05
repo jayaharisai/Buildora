@@ -134,3 +134,91 @@
         transform: translateY(0);
     }
 }
+
+
+/* Skeleton Loading Styles */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-page-title {
+    width: 200px;
+    height: 32px;
+    margin-bottom: 10px;
+}
+
+.skeleton-breadcrumb {
+    width: 250px;
+    height: 16px;
+    margin-bottom: 30px;
+}
+
+.skeleton-search-title {
+    width: 300px;
+    height: 28px;
+    margin-bottom: 20px;
+}
+
+.skeleton-search-input {
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.skeleton-button {
+    width: 120px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.skeleton-heading {
+    width: 180px;
+    height: 24px;
+    margin-bottom: 20px;
+}
+
+.skeleton-template-card {
+    pointer-events: none;
+}
+
+.skeleton-template-image {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.skeleton-template-title {
+    width: 70%;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.skeleton-template-desc {
+    width: 90%;
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.skeleton-status {
+    width: 80px;
+    height: 24px;
+    border-radius: 20px;
+}
+
+.skeleton-date {
+    width: 90px;
+    height: 14px;
+}

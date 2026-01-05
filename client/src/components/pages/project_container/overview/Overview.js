@@ -1,12 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../../navbar/Navbar'
 import "./Overview.css"
+
 
 function Overview() {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const templatesData = [
+    { id: 'template1', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/31712560/pexels-photo-31712560.jpeg' },
+    { id: 'template2', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' },
+    { id: 'template3', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' },
+    { id: 'template4', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/33681514/pexels-photo-33681514.jpeg' },
+    { id: 'template5', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34652802/pexels-photo-34652802.jpeg' },
+    { id: 'template6', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' },
+    { id: 'template7', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' },
+    { id: 'template8', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' },
+    { id: 'template9', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' },
+    { id: 'template10', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/33681514/pexels-photo-33681514.jpeg' },
+    { id: 'template11', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34652802/pexels-photo-34652802.jpeg' },
+    { id: 'template12', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' },
+    { id: 'template13', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' },
+  ];
+
+  useEffect(() => {
+    // Initial loading simulation
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const handleGenerate = () => {
     if (searchText.trim()) {
@@ -20,6 +45,61 @@ function Overview() {
   const handleTemplateClick = (templateId) => {
     navigate('/template_edit', { state: { templateId } });
   };
+
+  // Skeleton loader components
+  const SkeletonTemplateCard = () => (
+    <div className='template_card skeleton-template-card'>
+      <div className='skeleton skeleton-template-image'></div>
+      <div className='skeleton skeleton-template-title'></div>
+      <div className='skeleton skeleton-template-desc'></div>
+      <div className='deatils'>
+        <div className='skeleton skeleton-status'></div>
+        <div className='skeleton skeleton-date'></div>
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div>
+        <div>
+          <div><Navbar/></div>
+        </div>
+
+        <div className='dora_dashboard_container'>
+          <div className='main_space'></div>
+          <div>
+            <div className='skeleton skeleton-page-title'></div>
+            <div className='skeleton skeleton-breadcrumb'></div>
+          </div>
+
+          <div className='Project_promt_search'>
+            <div className='dora_search_title'>
+              <div className='skeleton skeleton-search-title'></div>
+            </div>
+            <div className='search_container2'>
+              <div className='skeleton skeleton-search-input'></div>
+              <div className='skeleton skeleton-button'></div>
+            </div>
+          </div>
+
+          <div>
+            <div className='skeleton skeleton-heading'></div>
+            <div className='all_templates'>
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+              <SkeletonTemplateCard />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -71,123 +151,19 @@ function Overview() {
             <div>
                 <div className='dora_heading1'>Generated Templates</div>
                 <div className='all_templates'>
-                    <div className='template_card' onClick={() => handleTemplateClick('template1')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/31712560/pexels-photo-31712560.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='completed'>Completed</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template2')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template3')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template4')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/33681514/pexels-photo-33681514.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='completed'>Completed</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template5')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34652802/pexels-photo-34652802.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='completed'>Completed</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template6')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template7')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template8')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template9')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template10')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/33681514/pexels-photo-33681514.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='completed'>Completed</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template11')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34652802/pexels-photo-34652802.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='completed'>Completed</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template12')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
-                    <div className='template_card' onClick={() => handleTemplateClick('template13')}>
-                        <div className='template_image'><img src='https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' alt='template'></img></div>
-                        <div className='dora_heading2'>Commertial template</div>
-                        <div className='dora_description'>It has a nice template where the user can understand evey detail correctly</div>
-                        <div className='deatils'>
-                            <div className='progress'>In progress</div>
-                            <div className='dora_text'>24th Jan 2024</div>
-                        </div>
-                    </div>
+                    {templatesData.map((template) => (
+                      <div className='template_card' key={template.id} onClick={() => handleTemplateClick(template.id)}>
+                          <div className='template_image'><img src={template.image} alt='template'></img></div>
+                          <div className='dora_heading2'>{template.title}</div>
+                          <div className='dora_description'>{template.description}</div>
+                          <div className='deatils'>
+                              <div className={template.status === 'completed' ? 'completed' : 'progress'}>
+                                {template.status === 'completed' ? 'Completed' : 'In progress'}
+                              </div>
+                              <div className='dora_text'>{template.date}</div>
+                          </div>
+                      </div>
+                    ))}
                 </div>
             </div>
         </div>
