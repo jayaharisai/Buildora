@@ -10,6 +10,7 @@ function Overview() {
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(true);
 
+
   const templatesData = [
     { id: 'template1', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'completed', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/31712560/pexels-photo-31712560.jpeg' },
     { id: 'template2', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/28355031/pexels-photo-28355031.jpeg' },
@@ -26,12 +27,14 @@ function Overview() {
     { id: 'template13', title: 'Commertial template', description: 'It has a nice template where the user can understand evey detail correctly', status: 'progress', date: '24th Jan 2024', image: 'https://images.pexels.com/photos/34289225/pexels-photo-34289225.jpeg' },
   ];
 
+
   useEffect(() => {
     // Initial loading simulation
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, []);
+
 
   const handleGenerate = () => {
     if (searchText.trim()) {
@@ -42,9 +45,11 @@ function Overview() {
     }
   };
 
+
   const handleTemplateClick = (templateId) => {
     navigate('/template_edit', { state: { templateId } });
   };
+
 
   // Skeleton loader components
   const SkeletonTemplateCard = () => (
@@ -59,6 +64,7 @@ function Overview() {
     </div>
   );
 
+
   if (loading) {
     return (
       <div>
@@ -66,12 +72,14 @@ function Overview() {
           <div><Navbar/></div>
         </div>
 
+
         <div className='dora_dashboard_container'>
           <div className='main_space'></div>
           <div>
             <div className='skeleton skeleton-page-title'></div>
             <div className='skeleton skeleton-breadcrumb'></div>
           </div>
+
 
           <div className='Project_promt_search'>
             <div className='dora_search_title'>
@@ -82,6 +90,7 @@ function Overview() {
               <div className='skeleton skeleton-button'></div>
             </div>
           </div>
+
 
           <div>
             <div className='skeleton skeleton-heading'></div>
@@ -101,11 +110,13 @@ function Overview() {
     );
   }
 
+
   return (
     <div>
         <div>
             <div><Navbar/></div>
         </div>
+
 
         {showPopup && (
           <div className='generation_popup'>
@@ -117,12 +128,14 @@ function Overview() {
           </div>
         )}
 
+
         <div className='dora_dashboard_container'>
             <div className='main_space'></div>
             <div>
                 <div className='dora_title'>mlangles mlops</div>
                 <div className='dora_description'>Projects | mlangles mlops</div>
             </div>
+
 
             <div className='Project_promt_search'>
                 <div className='dora_search_title'>
@@ -148,11 +161,17 @@ function Overview() {
                 </div>
             </div>
 
+
             <div>
                 <div className='dora_heading1'>Generated Templates</div>
                 <div className='all_templates'>
-                    {templatesData.map((template) => (
-                      <div className='template_card' key={template.id} onClick={() => handleTemplateClick(template.id)}>
+                    {templatesData.map((template, index) => (
+                      <div 
+                        className='template_card' 
+                        key={template.id} 
+                        onClick={() => handleTemplateClick(template.id)}
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
                           <div className='template_image'><img src={template.image} alt='template'></img></div>
                           <div className='dora_heading2'>{template.title}</div>
                           <div className='dora_description'>{template.description}</div>
@@ -170,5 +189,6 @@ function Overview() {
     </div>
   )
 }
+
 
 export default Overview

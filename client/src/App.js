@@ -8,6 +8,7 @@ import Projects from './components/pages/projects/Projects';
 import Configurations from './components/pages/configuration/Configurations';
 import Overview from './components/pages/project_container/overview/Overview';
 import Templateedit from './components/pages/project_container/template_edit/Template_edit';
+import Profile from './components/pages/profile/Profile';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/settings" element={<Configurations />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/template_edit" element={<Templateedit />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

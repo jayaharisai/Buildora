@@ -6,6 +6,7 @@
     font-family: "Source Sans 3", sans-serif;
 }
 
+
 .dora_navbar{
     display: flex;
     align-items: center;
@@ -26,6 +27,7 @@
     z-index: 1000;
 }
 
+
 .dora_logo_{
     font-size: 1.6vh;
     font-weight: 400;
@@ -33,6 +35,7 @@
     padding: 15px 15px;
     border-radius: 50px;
 }
+
 
 .dora_menu ul{
     padding: 0px;
@@ -45,6 +48,7 @@
     position: relative;
 }
 
+
 .dora_menu ul li{
     margin: 0px 10px;
     font-weight: 300;
@@ -56,10 +60,12 @@
     transition: color 0.3s ease;
 }
 
+
 .dora_menu_container{
     display: flex;
     align-items: center;
 }
+
 
 .settings, .profiles{
     background-color: white;
@@ -72,19 +78,28 @@
     transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
+
 .settings:hover, .profiles:hover{
     transform: scale(1.05);
 }
 
-.active_settings{
+
+.active_settings, .active_profile{
     background-color: black !important;
     color: white;
 }
+
+
+.active_settings:hover, .active_profile:hover{
+    background-color: rgb(40, 40, 40) !important;
+}
+
 
 .active{
     color: white;
     transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 .active::before{
     content: '';
@@ -98,13 +113,16 @@
     z-index: -1;
 }
 
+
 .active.right::before{
     animation: slideRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
 .active.left::before{
     animation: slideLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 @keyframes slideRight {
     0% {
@@ -116,6 +134,7 @@
         opacity: 1;
     }
 }
+
 
 @keyframes slideLeft {
     0% {

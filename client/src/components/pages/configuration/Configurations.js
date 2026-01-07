@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../navbar/Navbar'
 import "./Configurations.css"
 
+
 function Configurations() {
   const [apiKey, setApiKey] = useState('');
   const [confirmApiKey, setConfirmApiKey] = useState('');
@@ -9,6 +10,20 @@ function Configurations() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedModel, setSelectedModel] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Email configuration states
+  const [emailProvider, setEmailProvider] = useState(null);
+  const [emailConfig, setEmailConfig] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    smtpHost: '',
+    smtpPort: '',
+  });
+  const [isEmailConfigured, setIsEmailConfigured] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+
 
   const models = [
     { id: 1, name: 'GPT-3.5 Turbo', logo: 'https://us1.discourse-cdn.com/openai1/original/4X/3/2/1/321a1ba297482d3d4060d114860de1aa5610f8a9.png' },
@@ -23,6 +38,26 @@ function Configurations() {
     { id: 10, name: 'Text Embedding', logo: 'https://us1.discourse-cdn.com/openai1/original/4X/3/2/1/321a1ba297482d3d4060d114860de1aa5610f8a9.png' }
   ];
 
+  const emailProviders = [
+    {
+      id: 'gmail',
+      name: 'Gmail',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg',
+      smtpHost: 'smtp.gmail.com',
+      smtpPort: '587',
+      description: 'Connect with Gmail SMTP'
+    },
+    {
+      id: 'outlook',
+      name: 'Outlook',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/d/df/Microsoft_Office_Outlook_%282018%E2%80%93present%29.svg',
+      smtpHost: 'smtp.office365.com',
+      smtpPort: '587',
+      description: 'Connect with Outlook SMTP'
+    }
+  ];
+
+
   const handleSaveKey = () => {
     setErrorMessage('');
     
@@ -36,16 +71,17 @@ function Configurations() {
       return;
     }
     
-    // Save logic here
     setIsConfigured(true);
     setIsEditing(false);
     setApiKey('');
     setConfirmApiKey('');
   };
 
+
   const handleEdit = () => {
     setIsEditing(true);
   };
+
 
   const handleRemoveCredentials = () => {
     setIsConfigured(false);
@@ -56,11 +92,81 @@ function Configurations() {
     setErrorMessage('');
   };
 
+
   const handleModelClick = (modelId) => {
     if (isConfigured) {
       setSelectedModel(modelId);
     }
   };
+
+  // Email configuration handlers
+  const handleProviderSelect = (provider) => {
+    setEmailProvider(provider);
+    setEmailConfig({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      smtpHost: provider.smtpHost,
+      smtpPort: provider.smtpPort,
+    });
+    setIsEmailConfigured(false);
+    setIsEditingEmail(false);
+    setEmailErrorMessage('');
+  };
+
+  const handleEmailConfigChange = (field, value) => {
+    setEmailConfig(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSaveEmailConfig = () => {
+    setEmailErrorMessage('');
+
+    if (!emailConfig.email || !emailConfig.password || !emailConfig.confirmPassword) {
+      setEmailErrorMessage('Please fill all fields');
+      return;
+    }
+
+    if (emailConfig.password !== emailConfig.confirmPassword) {
+      setEmailErrorMessage('Passwords do not match');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailConfig.email)) {
+      setEmailErrorMessage('Please enter a valid email address');
+      return;
+    }
+
+    setIsEmailConfigured(true);
+    setIsEditingEmail(false);
+    setEmailConfig({
+      ...emailConfig,
+      password: '',
+      confirmPassword: ''
+    });
+  };
+
+  const handleEditEmail = () => {
+    setIsEditingEmail(true);
+  };
+
+  const handleRemoveEmailConfig = () => {
+    setEmailProvider(null);
+    setIsEmailConfigured(false);
+    setIsEditingEmail(false);
+    setEmailConfig({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      smtpHost: '',
+      smtpPort: '',
+    });
+    setEmailErrorMessage('');
+  };
+
 
   return (
     <div>
@@ -73,6 +179,7 @@ function Configurations() {
             <div className='dora_title'>Settings</div>
             <div className='dora_description'>This system allows you to various system level configuration.</div>
         </div>
+
 
         <div>
           <div className='dora_heading1'>OpenAI Key</div>
@@ -109,7 +216,9 @@ function Configurations() {
           )}
         </div>
 
+
         <div className='main_space2'></div>
+
 
         {isConfigured && (
           <div className='models_section'>
@@ -132,9 +241,131 @@ function Configurations() {
             </div>
           </div>
         )}
+
+        <div className='main_space2'></div>
+
+        {/* Email Configuration Section */}
+        <div>
+          <div className='dora_heading1'>Email Configuration</div>
+          <div className='dora_description'>Configure your email provider to send emails through the platform.</div>
+
+          {!emailProvider ? (
+            <div className='email_providers_container'>
+              {emailProviders.map((provider, index) => (
+                <div 
+                  key={provider.id}
+                  className='email_provider_card'
+                  onClick={() => handleProviderSelect(provider)}
+                  style={{animationDelay: `${index * 0.1}s`}}
+                >
+                  <div className='email_provider_logo'>
+                    <img src={provider.logo} alt={provider.name} />
+                  </div>
+                  <div className='dora_heading2'>{provider.name}</div>
+                  <div className='email_provider_description'>{provider.description}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className='email_config_form'>
+              <div className='selected_provider_header'>
+                <div className='selected_provider_info'>
+                  <img src={emailProvider.logo} alt={emailProvider.name} className='selected_provider_logo' />
+                  <div>
+                    <div className='selected_provider_name'>{emailProvider.name}</div>
+                    <div className='selected_provider_smtp'>{emailProvider.smtpHost}:{emailProvider.smtpPort}</div>
+                  </div>
+                </div>
+                {!isEmailConfigured && (
+                  <button className='change_provider_btn' onClick={() => setEmailProvider(null)}>
+                    Change Provider
+                  </button>
+                )}
+              </div>
+
+              {isEmailConfigured && !isEditingEmail ? (
+                <div className='configured_message'>
+                  <div className='success_message'>✓ Email configured successfully for {emailConfig.email}</div>
+                  <div style={{display: 'flex', gap: '10px'}}>
+                    <div className='dora_secondery_btn'><button onClick={handleEditEmail}>Edit Configuration</button></div>
+                    <div className='dora_secondery_btn remove_btn'><button onClick={handleRemoveEmailConfig}>Remove Configuration</button></div>
+                  </div>
+                </div>
+              ) : (
+                <div className='email_inputs_container'>
+                  <div className='email_input_group'>
+                    <label className='email_label'>Email Address</label>
+                    <div className='input_search'>
+                      <input 
+                        placeholder={`Enter your ${emailProvider.name} email`}
+                        type='email'
+                        value={emailConfig.email}
+                        onChange={(e) => handleEmailConfigChange('email', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className='email_input_group'>
+                    <label className='email_label'>App Password</label>
+                    <div className='input_search'>
+                      <input 
+                        placeholder='Enter your app-specific password'
+                        type='password'
+                        value={emailConfig.password}
+                        onChange={(e) => handleEmailConfigChange('password', e.target.value)}
+                      />
+                    </div>
+                    <div className='email_hint'>
+                      {emailProvider.id === 'gmail' ? (
+                        <span>Generate an app password from <a href='https://myaccount.google.com/apppasswords' target='_blank' rel='noopener noreferrer'>Google Account Settings</a></span>
+                      ) : (
+                        <span>Generate an app password from <a href='https://account.microsoft.com/security' target='_blank' rel='noopener noreferrer'>Microsoft Account Security</a></span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className='email_input_group'>
+                    <label className='email_label'>Confirm App Password</label>
+                    <div className='input_search'>
+                      <input 
+                        placeholder='Confirm your app-specific password'
+                        type='password'
+                        value={emailConfig.confirmPassword}
+                        onChange={(e) => handleEmailConfigChange('confirmPassword', e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className='smtp_info_container'>
+                    <div className='smtp_info_item'>
+                      <span className='smtp_label'>SMTP Host:</span>
+                      <span className='smtp_value'>{emailConfig.smtpHost}</span>
+                    </div>
+                    <div className='smtp_info_item'>
+                      <span className='smtp_label'>SMTP Port:</span>
+                      <span className='smtp_value'>{emailConfig.smtpPort}</span>
+                    </div>
+                    <div className='smtp_info_item'>
+                      <span className='smtp_label'>Security:</span>
+                      <span className='smtp_value'>TLS/STARTTLS</span>
+                    </div>
+                  </div>
+
+                  {emailErrorMessage && <div className='error_message'>{emailErrorMessage}</div>}
+                  
+                  <div className='dora_secondery_btn'>
+                    <button onClick={handleSaveEmailConfig}>Save Email Configuration</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
     </div>
     </div>
   )
 }
+
 
 export default Configurations

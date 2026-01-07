@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import "./Navbar.css"
 
+
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -9,7 +10,9 @@ function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [direction, setDirection] = useState('right');
 
+
   const menuItems = ['Dashboard', 'Projects'];
+
 
   useEffect(() => {
     if (location.pathname === '/main') {
@@ -20,6 +23,7 @@ function Navbar() {
       setActiveMenu(null);
     }
   }, [location.pathname]);
+
 
   const handleMenuClick = (menu) => {
     const currentIndex = menuItems.indexOf(activeMenu);
@@ -41,10 +45,17 @@ function Navbar() {
     }
   };
 
+
   const handleSettingsClick = () => {
     setActiveMenu(null);
     navigate('/settings');
   };
+
+  const handleProfileClick = () => {
+    setActiveMenu(null);
+    navigate('/profile');
+  };
+
 
   return (
     <div>
@@ -75,11 +86,17 @@ function Navbar() {
                 >
                   <i className="bi bi-gear"></i> Settings
                 </div>
-                <div className='profiles'><i className="bi bi-person"></i> Profile</div>
+                <div 
+                  className={`profiles ${location.pathname === '/profile' ? 'active_profile' : ''}`} 
+                  onClick={handleProfileClick}
+                >
+                  <i className="bi bi-person"></i> Profile
+                </div>
             </div>
         </div>
     </div>
   )
 }
+
 
 export default Navbar

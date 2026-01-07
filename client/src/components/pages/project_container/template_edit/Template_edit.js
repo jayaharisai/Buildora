@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../../navbar/Navbar'
 import "./Template_edit.css"
 
+
 function Template_edit() {
   const [htmlContent, setHtmlContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -11,6 +12,18 @@ function Template_edit() {
   const [brandColors, setBrandColors] = useState([]);
   const [currentColor, setCurrentColor] = useState('#000000');
   const [showPopup, setShowPopup] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [activeTab, setActiveTab] = useState('docs');
+  
+  // Test inputs state
+  const [testInputs, setTestInputs] = useState({
+    message: '',
+    link: '',
+    url: '',
+    userName: '',
+    email: ''
+  });
+
 
   useEffect(() => {
     fetch('/mail.html')
@@ -31,12 +44,14 @@ function Template_edit() {
       });
   }, []);
 
+
   const handlePrdUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setPrdFile(file);
     }
   };
+
 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
@@ -47,15 +62,18 @@ function Template_edit() {
     }
   };
 
+
   const addColor = () => {
     if (!brandColors.includes(currentColor)) {
       setBrandColors([...brandColors, currentColor]);
     }
   };
 
+
   const removeColor = (colorToRemove) => {
     setBrandColors(brandColors.filter(color => color !== colorToRemove));
   };
+
 
   const handleModify = () => {
     setShowPopup(true);
@@ -64,11 +82,32 @@ function Template_edit() {
     }, 4000);
   };
 
+  const handleTestInputChange = (field, value) => {
+    setTestInputs(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleTestAPI = () => {
+    console.log('Testing API with inputs:', testInputs);
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
+
+
   return (
     <div>
         <div>
             <div><Navbar/></div>
         </div>
+
 
         {showPopup && (
           <div className='generation_popup'>
@@ -79,6 +118,242 @@ function Template_edit() {
             </div>
           </div>
         )}
+
+        {/* Drawer Component */}
+        {showDrawer && <div className='drawer_backdrop' onClick={() => setShowDrawer(false)}></div>}
+        <div className={`api_drawer ${showDrawer ? 'open' : ''}`}>
+          <div className='drawer_header'>
+            <div className='drawer_title'>API Documentation</div>
+            <button className='drawer_close' onClick={() => setShowDrawer(false)}>×</button>
+          </div>
+
+          <div className='drawer_tabs'>
+            <button 
+              className={`drawer_tab ${activeTab === 'docs' ? 'active' : ''}`}
+              onClick={() => setActiveTab('docs')}
+            >
+              Documentation
+            </button>
+            <button 
+              className={`drawer_tab ${activeTab === 'test' ? 'active' : ''}`}
+              onClick={() => setActiveTab('test')}
+            >
+              Test API
+            </button>
+          </div>
+
+          <div className='drawer_content'>
+            {activeTab === 'docs' ? (
+              <div className='docs_section'>
+                <div className='docs_language'>
+                  <div className='language_title'>Python</div>
+                  <div className='code_block'>
+                    <pre>{`import requests
+
+url = "https://api.yourservice.com/v1/template"
+
+payload = {
+    "template_id": "template1",
+    "message": "Welcome to our platform!",
+    "link": "https://example.com/verify",
+    "url": "https://example.com",
+    "user_name": "John Doe",
+    "email": "john@example.com"
+}
+
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`}</pre>
+                    <button className='copy_btn' onClick={() => copyToClipboard(`import requests
+
+url = "https://api.yourservice.com/v1/template"
+
+payload = {
+    "template_id": "template1",
+    "message": "Welcome to our platform!",
+    "link": "https://example.com/verify",
+    "url": "https://example.com",
+    "user_name": "John Doe",
+    "email": "john@example.com"
+}
+
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`)}>
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div className='docs_language'>
+                  <div className='language_title'>JavaScript</div>
+                  <div className='code_block'>
+                    <pre>{`const url = "https://api.yourservice.com/v1/template";
+
+const payload = {
+    template_id: "template1",
+    message: "Welcome to our platform!",
+    link: "https://example.com/verify",
+    url: "https://example.com",
+    user_name: "John Doe",
+    email: "john@example.com"
+};
+
+fetch(url, {
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+})
+.then(response => response.json())
+.then(data => console.log(data));`}</pre>
+                    <button className='copy_btn' onClick={() => copyToClipboard(`const url = "https://api.yourservice.com/v1/template";
+
+const payload = {
+    template_id: "template1",
+    message: "Welcome to our platform!",
+    link: "https://example.com/verify",
+    url: "https://example.com",
+    user_name: "John Doe",
+    email: "john@example.com"
+};
+
+fetch(url, {
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+})
+.then(response => response.json())
+.then(data => console.log(data));`)}>
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div className='docs_language'>
+                  <div className='language_title'>cURL</div>
+                  <div className='code_block'>
+                    <pre>{`curl -X POST https://api.yourservice.com/v1/template \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "template_id": "template1",
+    "message": "Welcome to our platform!",
+    "link": "https://example.com/verify",
+    "url": "https://example.com",
+    "user_name": "John Doe",
+    "email": "john@example.com"
+  }'`}</pre>
+                    <button className='copy_btn' onClick={() => copyToClipboard(`curl -X POST https://api.yourservice.com/v1/template \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "template_id": "template1",
+    "message": "Welcome to our platform!",
+    "link": "https://example.com/verify",
+    "url": "https://example.com",
+    "user_name": "John Doe",
+    "email": "john@example.com"
+  }'`)}>
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className='test_section'>
+                <div className='test_description'>
+                  Test your API with sample inputs below
+                </div>
+
+                <div className='test_input_group'>
+                  <label className='test_label'>Message</label>
+                  <input 
+                    type='text'
+                    className='test_input'
+                    placeholder='Enter message content'
+                    value={testInputs.message}
+                    onChange={(e) => handleTestInputChange('message', e.target.value)}
+                  />
+                </div>
+
+                <div className='test_input_group'>
+                  <label className='test_label'>Link</label>
+                  <input 
+                    type='text'
+                    className='test_input'
+                    placeholder='https://example.com/verify'
+                    value={testInputs.link}
+                    onChange={(e) => handleTestInputChange('link', e.target.value)}
+                  />
+                </div>
+
+                <div className='test_input_group'>
+                  <label className='test_label'>URL</label>
+                  <input 
+                    type='text'
+                    className='test_input'
+                    placeholder='https://example.com'
+                    value={testInputs.url}
+                    onChange={(e) => handleTestInputChange('url', e.target.value)}
+                  />
+                </div>
+
+                <div className='test_input_group'>
+                  <label className='test_label'>User Name</label>
+                  <input 
+                    type='text'
+                    className='test_input'
+                    placeholder='John Doe'
+                    value={testInputs.userName}
+                    onChange={(e) => handleTestInputChange('userName', e.target.value)}
+                  />
+                </div>
+
+                <div className='test_input_group'>
+                  <label className='test_label'>Email</label>
+                  <input 
+                    type='email'
+                    className='test_input'
+                    placeholder='john@example.com'
+                    value={testInputs.email}
+                    onChange={(e) => handleTestInputChange('email', e.target.value)}
+                  />
+                </div>
+
+                <button className='test_api_btn' onClick={handleTestAPI}>
+                  Test API Call
+                </button>
+
+                <div className='sample_response'>
+                  <div className='response_title'>Sample Response</div>
+                  <div className='code_block'>
+                    <pre>{`{
+  "status": "success",
+  "message": "Template generated successfully",
+  "template_id": "template1",
+  "timestamp": "2026-01-07T23:08:00Z"
+}`}</pre>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
 
         <div className='dora_dashboard_container'>
             <div className='main_space'></div>
@@ -98,7 +373,7 @@ function Template_edit() {
                             <li>Alert</li>
                         </ul>
                     </div>
-                    <div className='documentation'>API Documentation</div>
+                    <div className='documentation' onClick={() => setShowDrawer(true)}>API Documentation</div>
                 </div>
                 <div className='session_overview'>
                   {loading ? (
@@ -121,6 +396,7 @@ function Template_edit() {
                         </div>
                     </div>
 
+
                     <div className='config_section'>
                         <div className='config_label'>Upload PRD/Instructions File</div>
                         <div className='file_upload'>
@@ -138,6 +414,7 @@ function Template_edit() {
                         </div>
                     </div>
 
+
                     <div className='config_section'>
                         <div className='config_label'>Upload Logo</div>
                         <div className='file_upload'>
@@ -154,6 +431,7 @@ function Template_edit() {
                           {logoFile && <span className='file_name'>{logoFile.name}</span>}
                         </div>
                     </div>
+
 
                     <div className='config_section'>
                         <div className='config_label'>Brand Colors</div>
@@ -175,6 +453,7 @@ function Template_edit() {
                         </div>
                     </div>
 
+
                     <div className='dora_secondery_btn'>
                       <button onClick={handleModify}>Let's modify/Save</button>
                     </div>
@@ -184,5 +463,6 @@ function Template_edit() {
     </div>
   )
 }
+
 
 export default Template_edit

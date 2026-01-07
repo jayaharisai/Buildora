@@ -60,7 +60,7 @@
 }
 
 .template_image img{
-    width: 30vh;
+    width: 100%;
     height: 30vh;
     object-fit: cover;
     transition: transform 0.3s ease;
@@ -94,7 +94,6 @@
 }
 
 .template_card{
-    width: 25vh;
     opacity: 0;
     animation: fadeInUp 0.4s ease-out forwards;
     cursor: pointer;
@@ -105,22 +104,10 @@
     transform: translateY(-10px);
 }
 
-.template_card:nth-child(1) { animation-delay: 0.1s; }
-.template_card:nth-child(2) { animation-delay: 0.15s; }
-.template_card:nth-child(3) { animation-delay: 0.2s; }
-.template_card:nth-child(4) { animation-delay: 0.25s; }
-.template_card:nth-child(5) { animation-delay: 0.3s; }
-.template_card:nth-child(6) { animation-delay: 0.35s; }
-.template_card:nth-child(7) { animation-delay: 0.4s; }
-.template_card:nth-child(8) { animation-delay: 0.45s; }
-.template_card:nth-child(9) { animation-delay: 0.5s; }
-.template_card:nth-child(10) { animation-delay: 0.55s; }
-
 .all_templates{
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
 
@@ -135,8 +122,6 @@
     }
 }
 
-
-/* Skeleton Loading Styles */
 .skeleton {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
@@ -191,6 +176,7 @@
 
 .skeleton-template-card {
     pointer-events: none;
+    opacity: 1;
 }
 
 .skeleton-template-image {
@@ -221,4 +207,272 @@
 .skeleton-date {
     width: 90px;
     height: 14px;
+}
+
+@media (max-width: 1400px) {
+    .all_templates {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .all_templates {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .all_templates {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .all_templates {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* Configurations Specific Styles */
+.configured_message {
+    background-color: #f0fdf4;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #86efac;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.success_message {
+    font-size: 1.6vh;
+    font-weight: 400;
+    color: #15803d;
+    margin-bottom: 15px;
+}
+
+.error_message {
+    background-color: #fef2f2;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    font-size: 1.4vh;
+    font-weight: 400;
+    margin: 10px 0;
+}
+
+.remove_btn button {
+    background-color: #dc2626 !important;
+}
+
+.remove_btn button:hover {
+    background-color: #b91c1c !important;
+}
+
+.models_section {
+    margin-top: 30px;
+}
+
+.llm_card_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.llm_card {
+    background-color: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.llm_card:hover {
+    border-color: #000;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.llm_card.active_card {
+    border-color: #000;
+    background-color: #fafafa;
+}
+
+.llm_card_logo_img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+}
+
+.llm_card_logo_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Email Configuration Styles */
+.email_providers_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.email_provider_card {
+    background-color: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.email_provider_card:hover {
+    border-color: #000;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.email_provider_logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+}
+
+.email_provider_logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.email_provider_description {
+    font-size: 1.4vh;
+    color: #6b7280;
+    margin-top: 10px;
+}
+
+.email_config_form {
+    margin-top: 20px;
+}
+
+.selected_provider_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 25px;
+}
+
+.selected_provider_info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.selected_provider_logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.selected_provider_name {
+    font-size: 1.8vh;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.selected_provider_smtp {
+    font-size: 1.3vh;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.change_provider_btn {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.4vh;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.change_provider_btn:hover {
+    background-color: #f9fafb;
+    border-color: #000;
+}
+
+.email_inputs_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.email_input_group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.email_label {
+    font-size: 1.5vh;
+    font-weight: 400;
+    color: #374151;
+}
+
+.email_hint {
+    font-size: 1.3vh;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+.email_hint a {
+    color: #000;
+    text-decoration: underline;
+}
+
+.email_hint a:hover {
+    color: #374151;
+}
+
+.smtp_info_container {
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.smtp_info_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.smtp_label {
+    font-size: 1.4vh;
+    font-weight: 400;
+    color: #6b7280;
+}
+
+.smtp_value {
+    font-size: 1.4vh;
+    font-weight: 500;
+    color: #1a1a1a;
+    font-family: 'Courier New', monospace;
 }
